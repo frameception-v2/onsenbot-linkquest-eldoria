@@ -2,6 +2,8 @@
 
 import { useEffect, useCallback, useState, useMemo } from "react";
 import { Input } from "./ui/input"
+import "../../styles/fonts.css"
+import "./zelda.css"
 import { signIn, signOut, getCsrfToken } from "next-auth/react";
 import sdk, {
     AddFrame,
@@ -35,6 +37,38 @@ import { PROJECT_TITLE } from "~/lib/constants";
 export default function Frame(
   { title }: { title?: string } = { title: PROJECT_TITLE }
 ) {
+  const links = [
+    {
+      name: "Warpcast",
+      url: "https://warpcast.com/hellno.eth",
+      icon: "🛡️"
+    },
+    {
+      name: "Twitch",
+      url: "https://twitch.tv/hellnotv",
+      icon: "🎮"
+    }
+  ];
+
+  const renderLinktree = () => (
+    <div className="zelda-container">
+      <div className="zelda-border">
+        <div className="zelda-title">Choose Your Path</div>
+        <div className="zelda-links">
+          {links.map((link, index) => (
+            <div 
+              key={index}
+              className="zelda-link"
+              onClick={() => sdk.actions.openUrl(link.url)}
+            >
+              <span className="zelda-icon">{link.icon}</span>
+              <span className="zelda-text">{link.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<Context.FrameContext>();
   const [isContextOpen, setIsContextOpen] = useState(false);
@@ -274,7 +308,7 @@ store.subscribe(providerDetails => {
       paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
       paddingRight: context?.client.safeAreaInsets?.right ?? 0 ,
     }}>
-      <div className="w-[300px] mx-auto py-2 px-2">
+      <div className="w-[300px] mx-auto py-2 px-2 zelda-theme">
         <h1 className="text-2xl font-bold text-center mb-4">{title}</h1>
 
         <div className="mb-4">
@@ -302,6 +336,7 @@ store.subscribe(providerDetails => {
           )}
         </div>
 
+        {renderLinktree()}
         <div>
           <h2 className="font-2xl font-bold">Actions</h2>
 
