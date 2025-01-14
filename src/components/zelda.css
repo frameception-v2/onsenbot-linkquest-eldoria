@@ -56,3 +56,10 @@
   font-size: 0.9rem;
   color: #f5f5f5;
 }
+
+/* Add missing CSS for Label-wrap */
+.Label-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
